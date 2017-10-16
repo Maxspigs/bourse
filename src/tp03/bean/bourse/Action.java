@@ -5,10 +5,18 @@ import yahoofinance.YahooFinance;
 
 public class Action extends Stock {
 	
-	private double quantite;
+	private Long quantite;
 	
 	public Action(String symbol) {
 		super(symbol);
+	}
+
+	public double getQuantite() {
+		return quantite;
+	}
+
+	public void setQuantite(Long quantite) {
+		this.quantite = quantite;
 	}
 
 }

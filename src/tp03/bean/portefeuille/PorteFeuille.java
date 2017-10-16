@@ -40,7 +40,9 @@ public abstract class PorteFeuille {
 		return identifiant;
 	}
 	
-	
+	public boolean estVide(){
+		return this.listeActions.isEmpty();
+	}
 	
 	
 }
