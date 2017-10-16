@@ -22,8 +22,8 @@ public class ServiceBourse {
 	 private static List<String> listeActionNat;
 
 	public static void start() throws Exception{
-		List<String> listeActionInt = ServiceBourse.loadStockInList(ServiceBourse.fileName01);
-		List<String> listeActionNat = ServiceBourse.loadStockInList(ServiceBourse.fileName02);
+		listeActionInt = ServiceBourse.loadStockInList(ServiceBourse.fileName01);
+		listeActionNat = ServiceBourse.loadStockInList(ServiceBourse.fileName02);
 		Client client01 = new Particulier();
 		Compte compte01 = ServiceClient.ouvrirCompte(client01);
 		client01.rajouterCompte(compte01);
