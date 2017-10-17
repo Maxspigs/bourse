@@ -12,8 +12,7 @@ public class PorteFeuilleInt extends PorteFeuille {
 		super();
 		this.identifiant = "" + compteur;
 		compteur++;
-		this.listeActions = new HashMap<String, Action>();
-		
+		this.listeActions = new HashMap<String, Action>();	
 	}
 
 	

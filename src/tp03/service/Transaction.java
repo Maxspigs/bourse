@@ -26,10 +26,11 @@ public class Transaction {
 	public static BigDecimal acheterActions(String symbole, Long nbActions, Compte compte, Client client) throws IOException{
 		PorteFeuille porteFeuille = null;
 		if(ServiceBourse.getListeActionInt().contains(symbole))
-			porteFeuille = compte.getPorteFeuilleInt();
+			porteFeuille = new PorteFeuilleInt();
 		if(ServiceBourse.getListeActionNat().contains(symbole))
-			porteFeuille = compte.getPorteFeuilleNat();
-		Action action = (Action) YahooFinance.get(symbole);
+			porteFeuille = new PorteFeuilleNat();
+		Action action = new Action(symbole);
+		Stock stock = YahooFinance.get(symbole);
 		BigDecimal prixTransaction = YahooFinance.get(symbole).getQuote().getPrice().multiply(new BigDecimal(nbActions));
 		action.setQuantite(nbActions);
 		ServicePorteFeuille.ajouterAction(symbole, porteFeuille.getListeActions());
