@@ -19,21 +19,25 @@ import tp03.bean.client.Particulier;
 import tp03.bean.portefeuille.PorteFeuille;
 import tp03.bean.portefeuille.PorteFeuilleInt;
 import tp03.bean.portefeuille.PorteFeuilleNat;
+import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 public class Transaction {
 
 	public static BigDecimal acheterActions(String symbole, Long nbActions, Compte compte, Client client) throws IOException{
 		PorteFeuille porteFeuille = null;
-		if(ServiceBourse.getListeActionInt().contains(symbole))
-			porteFeuille = new PorteFeuilleInt();
-		if(ServiceBourse.getListeActionNat().contains(symbole))
-			porteFeuille = new PorteFeuilleNat();
-		Action action = new Action(symbole);
+		if(compte.getPorteFeuilleInt().estVide()){			
+			if(ServiceBourse.getListeActionInt().contains(symbole))
+				porteFeuille = new PorteFeuilleInt();
+			if(ServiceBourse.getListeActionNat().contains(symbole))
+				porteFeuille = new PorteFeuilleNat();	
+		}
+			
 		Stock stock = YahooFinance.get(symbole);
+		Action action = new Action(stock);
 		BigDecimal prixTransaction = YahooFinance.get(symbole).getQuote().getPrice().multiply(new BigDecimal(nbActions));
 		action.setQuantite(nbActions);
-		ServicePorteFeuille.ajouterAction(symbole, porteFeuille.getListeActions());
+		ServicePorteFeuille.ajouterAction(action, porteFeuille.getListeActions());
 		if(prixTransaction.doubleValue() >= 10000.00 && client instanceof Particulier){
 			createIncident(client);
 		}

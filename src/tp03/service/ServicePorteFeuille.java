@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import tp03.bean.Compte;
+import tp03.bean.bourse.Action;
 import tp03.bean.bourse.Action2;
 import tp03.bean.portefeuille.PorteFeuille;
 import tp03.bean.portefeuille.PorteFeuilleInt;
@@ -18,8 +19,8 @@ public class ServicePorteFeuille {
 	}
 	
 	// Fonction statique qui permet d'ajouter une action dans un porteFeuille
-	public static void ajouterAction(String symbole, HashMap<String, Action2> liste) throws IOException{
-		liste.put(symbole, (Action2) YahooFinance.get(symbole));
+	public static void ajouterAction(Action action, HashMap<String, Action> liste) throws IOException{
+		liste.put(action.getSymbole(), action);
 	}
 	
 	// Fonction statique qui permet de supprimer une action dans un porteFeuille
