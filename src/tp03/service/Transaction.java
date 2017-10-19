@@ -24,27 +24,50 @@ import yahoofinance.YahooFinance;
 
 public class Transaction {
 
-	public static BigDecimal acheterActions(String symbole, Long nbActions, Compte compte, Client client) throws IOException{
-		PorteFeuille porteFeuille = null;
-		if(compte.getPorteFeuilleInt().estVide()){			
-			if(ServiceBourse.getListeActionInt().contains(symbole))
-				porteFeuille = new PorteFeuilleInt();
-			if(ServiceBourse.getListeActionNat().contains(symbole))
-				porteFeuille = new PorteFeuilleNat();	
+	public static String actionInternational(String symbole){
+		for (String str : ServiceBourse.getListeActionInt()) {
+			if(str.compareTo(symbole) == 0){
+				return "int";
+			}
 		}
-			
+		for (String str : ServiceBourse.getListeActionNat()) {
+			if(str.compareTo(symbole) == 0){
+				return "nat";
+			}
+		}
+		return "";
+	}
+	
+	public static BigDecimal acheterActions(String symbole, Long nbActions, Compte compte, Client client) throws IOException{
+		String typeAction = actionInternational(symbole);
+		PorteFeuille porteFeuille = null;
+		porteFeuille = typeAction(compte, typeAction, porteFeuille);
 		Stock stock = YahooFinance.get(symbole);
 		Action action = new Action(stock);
 		BigDecimal prixTransaction = YahooFinance.get(symbole).getQuote().getPrice().multiply(new BigDecimal(nbActions));
 		action.setQuantite(nbActions);
 		ServicePorteFeuille.ajouterAction(action, porteFeuille.getListeActions());
+		incidentClient(client, prixTransaction);
+		return prixTransaction;
+	}
+
+	private static void incidentClient(Client client, BigDecimal prixTransaction) {
 		if(prixTransaction.doubleValue() >= 10000.00 && client instanceof Particulier){
 			createIncident(client);
 		}
 		if(prixTransaction.doubleValue() >= 100000.00 && client instanceof Entreprise){
 			createIncident(client);
 		}
-		return prixTransaction;
+	}
+
+	private static PorteFeuille typeAction(Compte compte, String typeAction, PorteFeuille porteFeuille) {
+		if(compte.getPorteFeuilleInt().estVide()){			
+			if(typeAction.compareTo("int") == 0)
+				porteFeuille = new PorteFeuilleInt();
+			if(typeAction.compareTo("nat") == 0)
+				porteFeuille = new PorteFeuilleNat();	
+		}
+		return porteFeuille;
 	}
 	
 	public static boolean createXml(String fileName){

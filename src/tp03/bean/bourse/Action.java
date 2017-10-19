@@ -7,18 +7,12 @@ import java.util.List;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.quotes.stock.StockDividend;
 
 public class Action {
-	
-private int id;
-	
 
+	private int id;
 	private String description;
-	private BigDecimal prix;
-	private List<String> history;
-	private List<String> dividende;
-	private long volume;
-	private BigDecimal change;
 	private long quantite;
 	
 	private Stock stock;
@@ -53,8 +47,8 @@ private int id;
 		return stock.getHistory();
 	}
 
-	public List<String> getDividende() {
-		return dividende;
+	public StockDividend getDividende() {
+		return stock.getDividend();
 	}
 
 
@@ -62,21 +56,9 @@ private int id;
 		return stock.getQuote().getVolume();
 	}
 
-
-	public void setVolume(long volume) {
-		this.volume = volume;
-	}
-
-
 	public BigDecimal getChange() {
-		return change;
+		return stock.getQuote().getChange();
 	}
-
-
-	public void setChange(BigDecimal change) {
-		this.change = change;
-	}
-
 
 	public int getId() {
 		return id;
@@ -86,7 +68,6 @@ private int id;
 	public long getQuantite() {
 		return quantite;
 	}
-
 
 	public void setQuantite(long quantite) {
 		this.quantite = quantite;

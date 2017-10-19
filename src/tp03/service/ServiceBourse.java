@@ -28,7 +28,7 @@ public class ServiceBourse {
 		Compte compte01 = ServiceClient.ouvrirCompte(client01);
 		client01.rajouterCompte(compte01);
 		ServiceClient.deposerArgentDansCompte(client01, new BigDecimal(3000.00), 1);
-		//Transaction.acheterActions("GOOGL", new Long(30), compte01., client01);
+		Transaction.acheterActions("GOOGL", new Long(30), compte01, client01);
 	}
 	
 	
